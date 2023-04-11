@@ -17,7 +17,7 @@ do{
 console.log(passwordCliente);
 
 if ((usuarioCliente == usuario)&&(passwordCliente == password)){
-    alert("Hola " + usuario);
+    alert("Hola " + usuario + ". Buenos dias");
 }
 
 alert ("Su saldo es de $0")
@@ -26,9 +26,19 @@ let saldoInicial = 0;
 let montoIngresado = parseInt(prompt("¿Cuanto dinero desea ingresar a su cuenta?"));
 console.log(montoIngresado);
 
+if (montoIngresado < 0){
+    alert ("Disculpe, el monto ingresado es incorrecto. Por favor ingrese un monto mayor a cero pesos.");
+}
+/*else if (montoIngresado >= 0); {
+    let montoIngresado = parseInt(prompt('¿Cuanto dinero desea ingresar a su cuenta?'));
+console.log(montoIngresado);
+}*/
+
 function suma (saldoInicial,montoIngresado){
     return saldoInicial + montoIngresado;
 }
-let resultadoSuma = suma(0,montoIngresado);
+let resultadoSuma = suma(saldoInicial,montoIngresado);
 console.log(resultadoSuma)
-alert("El saldo de su cuenta es de $ " + resultadoSuma);
+alert("Ahora saldo de su cuenta es de $ " + resultadoSuma);
+
+alert ("Gracias por confiar en Coder & Co. Hasta la proxima")
