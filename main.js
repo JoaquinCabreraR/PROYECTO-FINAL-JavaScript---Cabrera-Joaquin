@@ -28,8 +28,6 @@ arrayUsuarios.forEach (Usuario => {
     console.log (Usuario);
 })
 
-//let dni = parseInt(prompt("Por favor, ingrese su DNI: "));
-
 do{
     dni = prompt("Por favor, ingrese su DNI: ")
 } while (dni != Usuario.dni)
@@ -48,11 +46,11 @@ function menu() {
 function consultaSaldo() {
     let documento = parseInt(prompt("Por favor, ingrese nuevamente su DNI: "));
     let usuario = arrayUsuarios.find(Usuario => Usuario.saldo === saldo);
-    console.log(cliente);
+    console.log(consultaSaldo);
 }
 
 function deposito(){
-    let dni = parseInt(prompt("Por favor, ingrese nuevamente su DNI: "));
+    let documento = parseInt(prompt("Por favor, ingrese nuevamente su DNI: "));
     let usuario = arrayUsuarios.find(Usuario => Usuario.dni);
     let indice = arrayClientes.indexOf(Usuario);
     let saldo = arrayUsuarios.find(Usuario => Usuario.saldo);
