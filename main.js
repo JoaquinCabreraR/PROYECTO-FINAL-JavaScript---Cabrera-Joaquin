@@ -52,7 +52,7 @@ function consultaSaldo() {
 function deposito(){
     let documento = parseInt(prompt("Por favor, ingrese nuevamente su DNI: "));
     let usuario = arrayUsuarios.find(Usuario => Usuario.dni);
-    let indice = arrayClientes.indexOf(Usuario);
+    let indice = arrayUsuarios.indexOf(Usuario);
     let saldo = arrayUsuarios.find(Usuario => Usuario.saldo);
     let deposito = parseInt(prompt("¿Cuanto dinero desea ingresar a su cuenta?"));
     function suma (deposito,saldo){
