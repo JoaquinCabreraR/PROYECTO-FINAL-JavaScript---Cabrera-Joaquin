@@ -30,10 +30,10 @@ arrayUsuarios.forEach (Usuario => {
 
 do{
     dni = prompt("Por favor, ingrese su DNI: ")
-} while (dni != Usuario.dni)
+} while (dni != arrayUsuarios.dni)
 
-if (dni === Usuario.dni){
-    alert ("Bienvenido " + Usuario.nombre + " " + Usuario.apellido);
+if (dni === arrayUsuarios.dni){
+    alert ("Bienvenido " + arrayUsuarios.nombre + arrayUsuarios.apellido);
 }
 
 /*--------------------- VER SALDO DE CUENTA Y OPERACION DE DEPOSITO --------------------------------*/
@@ -45,7 +45,7 @@ function menu() {
 
 function consultaSaldo() {
     let documento = parseInt(prompt("Por favor, ingrese nuevamente su DNI: "));
-    let usuario = arrayUsuarios.find(Usuario => Usuario.saldo === saldo);
+    let usuario = arrayUsuarios.find(Usuario => arrayUsuarios.saldo === saldo);
     console.log(consultaSaldo);
 }
 
