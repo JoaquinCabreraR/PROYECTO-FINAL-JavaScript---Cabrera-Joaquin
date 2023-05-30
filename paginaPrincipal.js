@@ -26,7 +26,7 @@ localStorage.setItem('usuarios', JSON.stringify(arrayUsuarios));
 window.addEventListener('load', function() {
     function menu() {
         let opcion = parseInt(
-            prompt("Por favor, seleccione la operacion a realizar:\n1) Consultar saldo de cuenta\n2) Depositar\n3) Salir")
+            prompt("Por favor, seleccione la operacion a realizar:\n1) Consultar saldo de cuenta\n2) Depositar dinero en cuenta")
         );
         return opcion;
     }
@@ -57,11 +57,6 @@ window.addEventListener('load', function() {
         alert("Su nuevo saldo es de $ " + nuevoSaldo)
     }
     
-    function salir() {
-        alert("Gracias por confiar en Coder & Co. Hasta la próxima.");
-        localStorage.setItem('usuarios', JSON.stringify(arrayUsuarios));
-    }
-    
     let opcion = menu();
     switch (opcion) {
         case 1:
@@ -70,11 +65,23 @@ window.addEventListener('load', function() {
         case 2:
             deposito();
             break;
-        case 3:
-            salir();
-            break;
         default:
             alert("Opción incorrecta");
             break;
     }
 });
+
+
+/*------------------------------- CERRAR SESION ------------------------------------------*/
+
+function cerrarSesion() {
+    Swal.fire({
+        icon: 'success',
+        title: '¡Sesión cerrada!',
+        text: 'Has cerrado sesión exitosamente.'
+    }).then(() => {
+        window.location.href = 'index.html';
+    });
+}
+
+

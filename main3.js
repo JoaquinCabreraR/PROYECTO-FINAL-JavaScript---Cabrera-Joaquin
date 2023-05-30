@@ -36,16 +36,30 @@ const dni = dniInput.value;
 const usuarioEncontrado = arrayUsuarios.find(usuario => usuario.dni === parseInt(dni));
 
 if (usuarioEncontrado) {
-    alert('Bienvenido ' + usuarioEncontrado.nombre + ' ' + usuarioEncontrado.apellido);
-    window.location.href = 'paginaPrincipal.html';
+    Swal.fire({
+        icon: 'success',
+        title: '¡Inicio de sesión exitoso!',
+        text: 'Bienvenido ' + usuarioEncontrado.nombre + ' ' + usuarioEncontrado.apellido
+    }).then(() => {
+        window.location.href = 'paginaPrincipal.html';
+    });
 } else {
     intentosIncorrectos++;
 
 if (intentosIncorrectos >= 5) {
-    alert('Has excedido el número máximo de intentos. Por favor, inténtalo más tarde.');
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Has excedido el número máximo de intentos. Por favor, inténtalo más tarde.'
+    }).then(() => {
         formularioLog.reset();
-    } else {
-        alert('El DNI ingresado no es válido. Intento ' + intentosIncorrectos + '/5');
+    });
+} else {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'El DNI ingresado no es válido. Intento ' + intentosIncorrectos + '/5'
+    });
     }
-}
+    }   
 });
