@@ -84,4 +84,69 @@ function cerrarSesion() {
     });
 }
 
+/*----------------------------- BOTON DOLAR -------------------------------------*/
 
+function mostrarValoresDolar() {
+    Swal.fire({
+        title: 'Valores del Dólar',
+        html: `
+        <p>Dólar oficial: <span id="dolarOficial"></span></p>
+        <p>Dólar blue: <span id="dolarBlue"></span></p>
+        `,
+        onOpen: () => {
+        obtenerValoresDolar((dolarOficial, dolarBlue) => {
+            document.getElementById('dolarOficial').textContent = dolarOficial;
+            document.getElementById('dolarBlue').textContent = dolarBlue;
+        });
+        }
+    });
+}
+
+function obtenerValoresDolar(callback) {
+    fetch('https://api.exchangerate-api.com/v4/latest/USD')
+        .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+        return response.json();
+        })
+        .then(data => {
+        const dolarOficial = data.rates.ARS;
+
+        fetch('https://api.exchangerate-api.com/v4/latest/USD?base=USD&symbols=ARS')
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la solicitud');
+            }
+            return response.json();
+            })
+            .then(data => {
+            const dolarBlue = data.rates.ARS;
+            callback(dolarOficial, dolarBlue);
+            guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
+        })
+            .catch(error => {
+            console.error(error);
+        });
+    })
+        .catch(error => {
+        console.error(error);
+    });
+}
+
+function guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue) {
+    const valoresDolar = {
+        oficial: dolarOficial,
+        blue: dolarBlue
+    };
+    localStorage.setItem('valoresDolar', JSON.stringify(valoresDolar));
+}
+
+obtenerValoresDolar((dolarOficial, dolarBlue) => {
+    guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
+});
+    setInterval(() => {
+    obtenerValoresDolar((dolarOficial, dolarBlue) => {
+        guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
+    });
+  }, 30 * 60 * 1000);

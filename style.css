@@ -82,6 +82,19 @@ body{
     background-color: black;
 }
 
+.botonDolar{
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    color: #000000;
+    background-color: #1ce426;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    padding: 0px 15px 0px 15px;
+}
+
 /******************** footer ************************/
 
 footer {
