@@ -90,48 +90,34 @@ function mostrarValoresDolar() {
     Swal.fire({
         title: 'Valores del Dólar',
         html: `
-        <p>Dólar oficial: <span id="dolarOficial"></span></p>
-        <p>Dólar blue: <span id="dolarBlue"></span></p>
-        `,
-        onOpen: () => {
+        <div>Dólar oficial: <p id="dolarOficial"></p></div>
+        <div>Dólar blue: <p id="dolarBlue"></p></div>
+        `
+    }).then(() => {
         obtenerValoresDolar((dolarOficial, dolarBlue) => {
             document.getElementById('dolarOficial').textContent = dolarOficial;
             document.getElementById('dolarBlue').textContent = dolarBlue;
         });
-        }
     });
 }
 
 function obtenerValoresDolar(callback) {
-    fetch('https://api.exchangerate-api.com/v4/latest/USD')
+    fetch('https://v6.exchangerate-api.com/v6/d7991c6b1253d19da0beadfb/latest/USD')
         .then(response => {
-        if (!response.ok) {
-            throw new Error('Error en la solicitud');
-        }
-        return response.json();
-        })
-        .then(data => {
-        const dolarOficial = data.rates.ARS;
-
-        fetch('https://api.exchangerate-api.com/v4/latest/USD?base=USD&symbols=ARS')
-            .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la solicitud');
             }
             return response.json();
-            })
-            .then(data => {
-            const dolarBlue = data.rates.ARS;
+        })
+        .then(data => {
+            const dolarOficial = data.rates.ARS;
+            const dolarBlue = data.rates.ARSBLUE;
             callback(dolarOficial, dolarBlue);
             guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
         })
-            .catch(error => {
-            console.error(error);
-        });
-    })
         .catch(error => {
-        console.error(error);
-    });
+            console.log(error);
+        });
 }
 
 function guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue) {
@@ -145,8 +131,10 @@ function guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue) {
 obtenerValoresDolar((dolarOficial, dolarBlue) => {
     guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
 });
-    setInterval(() => {
+/*
+setInterval(() => {
     obtenerValoresDolar((dolarOficial, dolarBlue) => {
         guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
     });
-  }, 30 * 60 * 1000);
+}, 30 * 60 * 1000);
+*/
