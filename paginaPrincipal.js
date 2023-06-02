@@ -90,14 +90,15 @@ function mostrarValoresDolar() {
     Swal.fire({
         title: 'Valores del Dólar',
         html: `
-        <div>Dólar oficial: <p id="dolarOficial"></p></div>
-        <div>Dólar blue: <p id="dolarBlue"></p></div>
-        `
-    }).then(() => {
-        obtenerValoresDolar((dolarOficial, dolarBlue) => {
-            document.getElementById('dolarOficial').textContent = dolarOficial;
-            document.getElementById('dolarBlue').textContent = dolarBlue;
-        });
+        <div>Dólar oficial: <span id="dolarOficial"></span></div>
+        <div>Dólar blue: <span id="dolarBlue"></span></div>
+        `,
+        didRender: () => {
+            obtenerValoresDolar((dolarOficial, dolarBlue) => {
+                document.getElementById('dolarOficial').textContent = dolarOficial;
+                document.getElementById('dolarBlue').textContent = dolarBlue;
+            });
+        }
     });
 }
 
@@ -110,8 +111,8 @@ function obtenerValoresDolar(callback) {
             return response.json();
         })
         .then(data => {
-            const dolarOficial = data.rates.ARS;
-            const dolarBlue = data.rates.ARSBLUE;
+            const dolarOficial = data.rates && data.rates.ARS;
+            const dolarBlue = data.rates && data.rates.ARSBLUE;
             callback(dolarOficial, dolarBlue);
             guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
         })
@@ -122,7 +123,7 @@ function obtenerValoresDolar(callback) {
 
 function guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue) {
     const valoresDolar = {
-        oficial: dolarOficial,
+        official: dolarOficial,
         blue: dolarBlue
     };
     localStorage.setItem('valoresDolar', JSON.stringify(valoresDolar));
@@ -131,10 +132,9 @@ function guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue) {
 obtenerValoresDolar((dolarOficial, dolarBlue) => {
     guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
 });
-/*
+
 setInterval(() => {
     obtenerValoresDolar((dolarOficial, dolarBlue) => {
         guardarValoresDolarEnLocalStorage(dolarOficial, dolarBlue);
     });
 }, 30 * 60 * 1000);
-*/
