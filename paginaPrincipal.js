@@ -22,7 +22,7 @@ console.log(arrayUsuarios);
 localStorage.setItem('usuarios', JSON.stringify(arrayUsuarios));
 
 /*------------------------------- MENU ------------------------------------------*/
-
+/*
 window.addEventListener('load', function() {
     function menu() {
         let opcion = parseInt(
@@ -70,6 +70,124 @@ window.addEventListener('load', function() {
             break;
     }
 });
+*/
+
+window.addEventListener('load', function () {
+    menu();
+});
+
+function menu() {
+    Swal.fire({
+        title: "Seleccione la operación a realizar",
+        input: "select",
+        inputOptions: {
+            1: "Consultar saldo de cuenta",
+            2: "Depositar dinero en cuenta"
+        },
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Aceptar",
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe seleccionar una opción";
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let opcion = parseInt(result.value);
+            switch (opcion) {
+                case 1:
+                    consultaSaldo();
+                    break;
+                case 2:
+                    deposito();
+                    break;
+                default:
+                    Swal.fire("Opción incorrecta", "", "error");
+                    break;
+            }
+        } else {
+            Swal.fire("Operación cancelada", "", "info");
+        }
+    });
+}
+
+function consultaSaldo() {
+    Swal.fire({
+        title: "Consulta de saldo",
+        input: "number",
+        inputLabel: "Ingrese nuevamente su DNI",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Consultar",
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar su DNI";
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let documento = parseInt(result.value);
+            let usuario = arrayUsuarios.find((usuario) => usuario.dni === documento);
+            if (usuario) {
+                Swal.fire("Consulta de saldo", "Su saldo es de $ " + usuario.saldo, "info");
+            } else {
+                Swal.fire("Usuario no encontrado", "", "error");
+            }
+        } else {
+            Swal.fire("Consulta cancelada", "", "info");
+        }
+    });
+}
+
+function deposito() {
+    Swal.fire({
+        title: "Depósito de dinero",
+        input: "number",
+        inputLabel: "Ingrese nuevamente su DNI",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Depositar",
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar su DNI";
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let documento = parseInt(result.value);
+            let usuario = arrayUsuarios.find((usuario) => usuario.dni === documento);
+            if (usuario) {
+                Swal.fire({
+                    title: "Depósito de dinero",
+                    input: "number",
+                    inputLabel: "¿Cuánto dinero desea ingresar a su cuenta?",
+                    showCancelButton: true,
+                    cancelButtonText: "Cancelar",
+                    confirmButtonText: "Depositar",
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return "Debe ingresar la cantidad a depositar";
+                        }
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let deposito = parseInt(result.value);
+                        let indice = arrayUsuarios.indexOf(usuario);
+                        let saldo = usuario.saldo;
+                        let nuevoSaldo = saldo + deposito;
+                        usuario.saldo = nuevoSaldo;
+                        arrayUsuarios.splice(indice, 1, usuario);
+                        localStorage.setItem('usuarios', JSON.stringify(arrayUsuarios));
+                        Swal.fire("Depósito exitoso", "Su nuevo saldo es de $ " + nuevoSaldo, "success");
+                    }
+                });
+            }
+        }
+    });
+}
+
+
 
 
 /*------------------------------- CERRAR SESION ------------------------------------------*/
